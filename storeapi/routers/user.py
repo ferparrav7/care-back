@@ -4,9 +4,9 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from storeapi.database import database, user_table
+from storeapi.core.database import database, user_table
 from storeapi.models.user import UserIn
-from storeapi.security import get_password_hash, get_user, authenticate_user, create_access_token
+from storeapi.core.security import get_password_hash, get_user, authenticate_user, create_access_token
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

@@ -2,7 +2,7 @@ import pytest
 
 from jose import jwt
 
-from storeapi import security
+from storeapi.core import security
 
 
 def test_access_token_expire_minutes():

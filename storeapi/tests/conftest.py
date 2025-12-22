@@ -6,7 +6,7 @@ import pytest
 from typing import AsyncGenerator, Generator
 from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
-from storeapi.database import database, user_table
+from storeapi.core.database import database, user_table
 from storeapi.main import app
 
 
