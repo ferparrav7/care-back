@@ -6,8 +6,8 @@ import pytest
 from typing import AsyncGenerator, Generator
 from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
-from storeapi.core.database import database, user_table
-from storeapi.main import app
+from src.database.postgres import database, user_table
+from src.main import app
 
 
 @pytest.fixture(scope="session")

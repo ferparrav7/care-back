@@ -7,7 +7,7 @@ from typing import Annotated
 from jose import jwt, ExpiredSignatureError, JWTError
 from passlib.context import CryptContext
 
-from storeapi.core.database import database, user_table
+from src.database.postgres import database, user_table
 
 logger = logging.getLogger(__name__)
 SECRET_KEY = "9b73f2a1bdd7ae163444473d29a6885ffa22ab26117068f72a5a56a74d12d1fc"

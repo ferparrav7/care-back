@@ -3,7 +3,6 @@ import contextlib
 import pathlib
 import tempfile
 import pytest
-
 from httpx import AsyncClient
 
 
@@ -17,15 +16,12 @@ def sample_image(fs) -> pathlib.Path:
 @pytest.fixture(autouse=True)
 def mock_b2_upload_file(mocker):
     return mocker.patch(
-        "storeapi.routers.upload.b2_upload_file", return_value="https://fakeurl.com")
+        "src.files.router.b2_upload_file", return_value="https://fakeurl.com")
 
 
 @pytest.fixture(autouse=True)
 def aiofiles_mock_open(mocker, fs):
-    mock_open = (mocker.patch("aiofiles.open")
-
-                 @ contextlib.asynccontextmanager)
-
+    @contextlib.asynccontextmanager
     async def async_file_open(fname: str, mode: str = "r"):
         out_fs_mock = mocker.AsyncMock(name=f"async_file_open:{fname!r}/{mode!r}")
         with open(fname, mode) as fin:
@@ -33,7 +29,7 @@ def aiofiles_mock_open(mocker, fs):
             out_fs_mock.write.side_effect = fin.write
             yield out_fs_mock
 
-    mock_open.side_effect = async_file_open
+    mock_open = mocker.patch("aiofiles.open", side_effect=async_file_open)
     return mock_open
 
 

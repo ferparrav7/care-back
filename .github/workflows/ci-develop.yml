@@ -49,7 +49,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest storeapi/tests \
+          pytest tests \
             --cov=storeapi \
             --cov-report=xml \
             --junitxml=test-results.xml

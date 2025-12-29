@@ -1,10 +1,10 @@
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from storeapi.core.database import database
+from src.database.postgres import database
 # from storeapi.logging_conf import configure_logging
-from storeapi.routers.upload import router as upload_router
-from storeapi.routers.user import router as user_router
+from src.files.router import router as upload_router
+from src.user.router import router as user_router
 
 logger = logging.getLogger(__name__)
 

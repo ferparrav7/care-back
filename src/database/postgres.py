@@ -1,6 +1,6 @@
 import databases
 import sqlalchemy
-from storeapi.core.config import config
+from src.config.settings import config
 
 metadata = sqlalchemy.MetaData()
 

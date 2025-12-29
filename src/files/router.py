@@ -4,7 +4,7 @@ import aiofiles
 
 from fastapi import APIRouter, UploadFile, HTTPException, status
 
-from storeapi.libs.b2 import b2_upload_file
+from src.files.b2 import b2_upload_file
 
 logger = logging.getLogger(__name__)
 
