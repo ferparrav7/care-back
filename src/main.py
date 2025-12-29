@@ -1,10 +1,12 @@
 import logging
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.database.postgres import database
-# from storeapi.logging_conf import configure_logging
+# from src.logging_conf import configure_logging
 from src.files.router import router as upload_router
 from src.user.router import router as user_router
+from src.auth.router import router as auth_router
 
 logger = logging.getLogger(__name__)
 
@@ -20,3 +22,4 @@ app = FastAPI(lifespan=lifespan)
 #app.add_middleware(CorrelationIdMiddleware)
 app.include_router(upload_router)
 app.include_router(user_router)
+app.include_router(auth_router)

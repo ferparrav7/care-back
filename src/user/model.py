@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class User(BaseModel):
     id: int | None = None
-    email: str
+    email: EmailStr
 
 
 class UserIn(User):

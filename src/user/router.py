@@ -1,8 +1,6 @@
 import logging
 
-from typing import Annotated
 from fastapi import APIRouter, HTTPException, status, Depends
-from fastapi.security import OAuth2PasswordRequestForm
 
 from src.database.postgres import database, user_table
 from src.user.model import UserIn
@@ -26,10 +24,3 @@ async def register(user: UserIn):
 
     await database.execute(query)
     return {"detail": "User created successfully"}
-
-
-@router.post("/token")
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
-    user = await authenticate_user(form_data.username, form_data.password)
-    access_token = create_access_token(user.email)
-    return {"access_token": access_token, "token_type": "bearer"}
