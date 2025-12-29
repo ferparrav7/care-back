@@ -50,7 +50,7 @@ jobs:
       - name: Run tests
         run: |
           pytest tests \
-            --cov=storeapi \
+            --cov=src \
             --cov-report=xml \
             --junitxml=test-results.xml
 
