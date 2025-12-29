@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
 from src.database.postgres import database, user_table
 from src.main import app
+from src.database.postgres import create_tables
 
 
 @pytest.fixture(scope="session")
@@ -18,6 +19,11 @@ def anyio_backend():
 @pytest.fixture()
 def client() -> Generator:
     yield TestClient(app)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_database():
+    create_tables()
 
 
 @pytest.fixture(autouse=True)
