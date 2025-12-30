@@ -1,11 +1,8 @@
-name: CI Develop 🚀
+name: PR Validation 🚀
 
 on:
   pull_request:
-    branches: [ develop ]
-  push:
-    branches:
-      - 'feature/**'
+    branches: [ develop, main ]
 
 jobs:
   test:
