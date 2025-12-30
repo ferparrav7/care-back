@@ -75,7 +75,8 @@ jobs:
       - name: Run Sonarless
         uses: gitricko/sonarless@v1.3
         with:
-          sonar-source-path: "."
+          sonar-source-path: src
           sonar-project-key: care-back
-          sonar-project-name: Care Back
+          sonar-project-name: care-back
           sonar-metrics-path: sonar-metrics.json
+          sonar-python-coverage-report-path: coverage.xml
