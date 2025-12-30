@@ -1,9 +1,10 @@
 import os
 import contextlib
 import pathlib
-import tempfile
 import pytest
 from httpx import AsyncClient
+
+import src
 
 
 @pytest.fixture
@@ -16,7 +17,7 @@ def sample_image(fs) -> pathlib.Path:
 @pytest.fixture(autouse=True)
 def mock_b2_upload_file(mocker):
     return mocker.patch(
-        "src.files.router.b2_upload_file", return_value="https://fakeurl.com")
+        "src.files.service.b2_upload_file", return_value="https://fakeurl.com")
 
 
 @pytest.fixture(autouse=True)
@@ -56,8 +57,8 @@ async def test_upload_image(
 async def test_temp_file_removed_after_upload(
         async_client: AsyncClient, logged_in_token: str, sample_image: pathlib.Path, mocker
 ):
-    named_temp_file_spy = mocker.spy(tempfile, "NamedTemporaryFile")
+    temp_filename_spy = mocker.spy(src.files.service, "get_temp_filename")
     response = await call_upload_endpoint(async_client, logged_in_token, sample_image)
     assert response.status_code == 201
-    created_temp_file = named_temp_file_spy.spy_return
-    assert not os.path.exists(created_temp_file.name)
+    created_temp_file_name = temp_filename_spy.spy_return
+    assert not os.path.exists(created_temp_file_name)

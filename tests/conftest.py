@@ -1,12 +1,12 @@
 import os
+from typing import AsyncGenerator, Generator
 
 os.environ["ENV_STATE"] = "test"
 
 import pytest
-from typing import AsyncGenerator, Generator
 from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
-from src.database.postgres import database, user_table
+from src.database.postgres import database, user_table, create_tables
 from src.main import app
 
 
@@ -18,6 +18,11 @@ def anyio_backend():
 @pytest.fixture()
 def client() -> Generator:
     yield TestClient(app)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_database():
+    create_tables()
 
 
 @pytest.fixture(autouse=True)
