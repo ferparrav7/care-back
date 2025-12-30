@@ -1,18 +1,16 @@
 import datetime
 import logging
-
 from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
 from jose import jwt, ExpiredSignatureError, JWTError
 from passlib.context import CryptContext
-
 from src.database.postgres import database, user_table
 
 logger = logging.getLogger(__name__)
 SECRET_KEY = "9b73f2a1bdd7ae163444473d29a6885ffa22ab26117068f72a5a56a74d12d1fc"
 ALGORITHM = "HS256"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 pwd_context = CryptContext(schemes=["bcrypt"])
 
 credentials_exception = HTTPException(

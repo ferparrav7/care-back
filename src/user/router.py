@@ -1,10 +1,9 @@
 import logging
-
-from fastapi import APIRouter, HTTPException, status
-
+from fastapi import APIRouter, HTTPException, status, Depends
 from src.database.postgres import database, user_table
 from src.user.model import UserIn
-from src.auth.service import get_password_hash, get_user
+from src.auth.service import get_password_hash, get_user, get_current_user
+from typing import Annotated
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -24,3 +23,12 @@ async def register(user: UserIn):
 
     await database.execute(query)
     return {"detail": "User created successfully"}
+
+
+@router.get("/me")
+async def me(
+        current_user: Annotated[dict, Depends(get_current_user)]
+):
+    return {
+        "email": current_user.email
+    }
