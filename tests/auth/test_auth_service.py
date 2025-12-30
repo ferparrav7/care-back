@@ -1,7 +1,5 @@
 import pytest
-
 from jose import jwt
-
 from src.auth import service
 
 
