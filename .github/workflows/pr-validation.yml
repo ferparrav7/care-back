@@ -83,11 +83,7 @@ jobs:
 
       - name: Run Sonarless
         uses: gitricko/sonarless@v1.3
-        env:
-          SONAR_SOURCES: src
-          SONAR_TESTS: tests
-          SONAR_COVERAGE_REPORTPATHS: coverage.xml
         with:
           sonar-project-key: care-back
-          sonar-project-name: Care-Back
+          sonar-project-name: care-back
           sonar-metrics-path: sonar-metrics.json
