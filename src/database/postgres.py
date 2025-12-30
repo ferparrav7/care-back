@@ -12,7 +12,12 @@ user_table = sqlalchemy.Table(
     sqlalchemy.Column("password", sqlalchemy.String),
 )
 
-engine = sqlalchemy.create_engine(config.DATABASE_URL)
+if config.DATABASE_URL is None:
+    raise ValueError("DATABASE_URL is not set in the configuration")
+
+engine = sqlalchemy.create_engine(
+    config.DATABASE_URL.replace("+asyncpg", "")
+)
 
 
 def create_tables():
