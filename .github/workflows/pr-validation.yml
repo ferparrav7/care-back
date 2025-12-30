@@ -78,4 +78,3 @@ jobs:
           sonar-project-key: care-back
           sonar-project-name: care-back
           sonar-metrics-path: sonar-metrics.json
-          sonar-python-coverage-report-path: coverage.xml
