@@ -88,7 +88,6 @@ jobs:
           SONAR_TESTS: tests
           SONAR_COVERAGE_REPORTPATHS: coverage.xml
         with:
-          sonar-source-path: "."
           sonar-project-key: care-back
           sonar-project-name: Care-Back
           sonar-metrics-path: sonar-metrics.json
