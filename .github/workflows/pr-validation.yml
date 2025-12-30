@@ -43,12 +43,11 @@ jobs:
           echo "ENV_STATE=test" >> $GITHUB_ENV
           echo "TEST_DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/test_db" >> $GITHUB_ENV
 
-      - name: Run tests
+      - name: Run tests & coverage
         run: |
-          pytest tests \
-            --cov=src \
-            --cov-report=xml \
-            --junitxml=test-results.xml
+          coverage run -m pytest tests --cov=src --junitxml=test-results.xml
+          coverage report -m
+          coverage  
 
       - name: Upload test reports
         uses: actions/upload-artifact@v4
