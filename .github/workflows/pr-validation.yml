@@ -1,13 +1,14 @@
-name: PR Validation 🚀
+name: PR Validation
 
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ main, develop ]
 
 jobs:
   test:
     name: Tests & Coverage 🧪
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:15
@@ -43,16 +44,17 @@ jobs:
           echo "ENV_STATE=test" >> $GITHUB_ENV
           echo "TEST_DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/test_db" >> $GITHUB_ENV
 
-      - name: Run tests & coverage
+      - name: Run tests
         run: |
-          coverage run -m pytest tests --junitxml=test-results.xml
-          coverage report -m
-          coverage xml
+          pytest tests \
+            --cov=src \
+            --cov-report=xml \
+            --junitxml=test-results.xml
 
-      - name: Upload test reports
+      - name: Upload test artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports
+          name: test-artifacts
           path: |
             coverage.xml
             test-results.xml
@@ -66,17 +68,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download test reports
+      - name: Download test artifacts
         uses: actions/download-artifact@v4
         with:
-          name: test-reports
+          name: test-artifacts
+
+      - name: Verify Artifacts
+        run: |
+          echo "Listing files in the current directory:"
+          ls -la
+          echo "---"
+          echo "Content of coverage.xml:"
+          cat coverage.xml || echo "coverage.xml not found"
 
       - name: Run Sonarless
         uses: gitricko/sonarless@v1.3
         env:
-          SONAR_PYTHON_COVERAGE_REPORTPATHS: coverage.xml
+          SONAR_COVERAGE_REPORTPATHS: coverage.xml
         with:
-          sonar-source-path: src
+          sonar-source-path: "."
           sonar-project-key: care-back
-          sonar-project-name: care-back
+          sonar-project-name: Care Back
           sonar-metrics-path: sonar-metrics.json
