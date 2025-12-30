@@ -47,7 +47,7 @@ jobs:
         run: |
           coverage run -m pytest tests --cov=src --junitxml=test-results.xml
           coverage report -m
-          coverage  
+          coverage  xml
 
       - name: Upload test reports
         uses: actions/upload-artifact@v4
