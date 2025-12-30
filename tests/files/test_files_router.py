@@ -3,7 +3,6 @@ import contextlib
 import pathlib
 import pytest
 from httpx import AsyncClient
-
 import src
 
 
@@ -46,19 +45,19 @@ async def call_upload_endpoint(
 
 @pytest.mark.anyio
 async def test_upload_image(
-        async_client: AsyncClient, logged_in_token: str, sample_image: pathlib.Path
+        async_client: AsyncClient, auth_token: str, sample_image: pathlib.Path
 ):
-    response = await call_upload_endpoint(async_client, logged_in_token, sample_image)
+    response = await call_upload_endpoint(async_client, auth_token, sample_image)
     assert response.status_code == 201
     assert response.json()["file_url"] == "https://fakeurl.com"
 
 
 @pytest.mark.anyio
 async def test_temp_file_removed_after_upload(
-        async_client: AsyncClient, logged_in_token: str, sample_image: pathlib.Path, mocker
+        async_client: AsyncClient, auth_token: str, sample_image: pathlib.Path, mocker
 ):
     temp_filename_spy = mocker.spy(src.files.service, "get_temp_filename")
-    response = await call_upload_endpoint(async_client, logged_in_token, sample_image)
+    response = await call_upload_endpoint(async_client, auth_token, sample_image)
     assert response.status_code == 201
     created_temp_file_name = temp_filename_spy.spy_return
     assert not os.path.exists(created_temp_file_name)
