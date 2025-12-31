@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: Tests & Coverage 🧪
+    name: Tests & Coverage
     runs-on: ubuntu-latest
 
     services:
@@ -51,16 +51,8 @@ jobs:
             --cov-report=xml \
             --junitxml=test-results.xml
 
-      - name: Upload test artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-artifacts
-          path: |
-            coverage.xml
-            test-results.xml
-
   sonarless:
-    name: Sonarless Analysis 📊
+    name: Sonarless Analysis
     needs: test
     runs-on: ubuntu-latest
 
