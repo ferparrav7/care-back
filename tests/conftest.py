@@ -1,13 +1,13 @@
 import os
+from typing import AsyncGenerator, Generator
 
 os.environ["ENV_STATE"] = "test"
 
 import pytest
-from typing import AsyncGenerator, Generator
 from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
-from storeapi.core.database import database, user_table
-from storeapi.main import app
+from src.database.postgres import database, user_table, create_tables
+from src.main import app
 
 
 @pytest.fixture(scope="session")
@@ -18,6 +18,11 @@ def anyio_backend():
 @pytest.fixture()
 def client() -> Generator:
     yield TestClient(app)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_database():
+    create_tables()
 
 
 @pytest.fixture(autouse=True)
@@ -45,9 +50,9 @@ async def registered_user(async_client: AsyncClient) -> dict:
 
 
 @pytest.fixture()
-async def logged_in_token(async_client: AsyncClient, registered_user: dict) -> str:
+async def auth_token(async_client: AsyncClient, registered_user: dict) -> str:
     response = await async_client.post(
-        "/token",
+        "/login",
         data={
             "username": registered_user["email"],
             "password": registered_user["password"],

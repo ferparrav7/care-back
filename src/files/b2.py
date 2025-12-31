@@ -3,7 +3,7 @@ import b2sdk.v2 as b2
 
 from functools import lru_cache
 
-from storeapi.core.config import config
+from src.config.settings import config
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +31,6 @@ def b2_upload_file(local_file: str, file_name: str) -> str:
         local_file=local_file, file_name=file_name
     )
     download_url = api.get_download_url_for_fileid(uploaded_file.id_)
-    logger.debug(f"")
+    logger.debug("Upload completed successfully")
 
     return download_url
