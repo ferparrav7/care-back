@@ -1,13 +1,14 @@
-name: PR Validation 🚀
+name: PR Validation
 
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ main, develop ]
 
 jobs:
   test:
-    name: Tests & Coverage 🧪
+    name: Tests & Coverage
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:15
@@ -50,16 +51,8 @@ jobs:
             --cov-report=xml \
             --junitxml=test-results.xml
 
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            coverage.xml
-            test-results.xml
-
   sonarless:
-    name: Sonarless Analysis 📊
+    name: Sonarless Analysis
     needs: test
     runs-on: ubuntu-latest
 
@@ -67,15 +60,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download test reports
-        uses: actions/download-artifact@v4
-        with:
-          name: test-reports
-
       - name: Run Sonarless
         uses: gitricko/sonarless@v1.3
         with:
-          sonar-source-path: "."
           sonar-project-key: care-back
-          sonar-project-name: Care Back
+          sonar-project-name: care-back
           sonar-metrics-path: sonar-metrics.json
